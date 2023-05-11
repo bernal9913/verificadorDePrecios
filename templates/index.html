@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verificador de precios</title>
+        <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        #form-container {
+            text-align: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#scan_button').click(function() {
+                var productCode = $('#product_code').val();
+                $.ajax({
+                    url: '/scan',
+                    type: 'POST',
+                    data: { product_code: productCode },
+                    success: function(response) {
+                        $('#product_id').text(response.product_id);
+                        $('#product_name').text(response.product_name);
+                        $('#product_price').text(response.product_price);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id = "form-container">
+        <h1>Verificador de precios</h1>
+    <form>
+        <label for="product_code">Código de producto:</label>
+        <input type="text" id="product_code" name="product_code">
+        <button type="button" id="scan_button">Escanear</button>
+    </form>
+    <div id="result" align="center">
+        <h2>Resultado:</h2>
+        <p>ID: <span id="product_id"></span></p>
+        <p>Nombre: <span id="product_name"></span></p>
+        <p>Precio: <span id="product_price"></span></p>
+    </div>
+    </div>
+</body>
+</html>
